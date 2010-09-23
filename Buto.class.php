@@ -11,7 +11,7 @@
  |
  | LICENSE
  | ================================================================================ 
- | Buto PHP API WrapperCopyright (C) 2010 Big Button Media Limited.
+ | Buto PHP API Wrapper. Copyright (C) 2010 Big Button Media Limited.
  |
  | This library is free software; you can redistribute it and/or
  | modify it under the terms of the GNU Lesser General Public
