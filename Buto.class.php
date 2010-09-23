@@ -5,23 +5,27 @@
  | BUTO PHP API WRAPPER
  | ================================================================================ 
  | Version: 0.4
- | Last modified: 20/09/2010
- | Last modified by: Andy 
+ | Last modified: 23/09/2010
+ | Last modified by: Greg 
  |
  |
  | LICENSE
  | ================================================================================ 
- | The code in this document is licensed by a Creative Commons License
- | See License.txt for more details.
- | 
- | THIS WORK IS PROVIDED UNDER THE TERMS OF THIS CREATIVE COMMONS 
- | PUBLIC LICENSE ("CCPL" OR "LICENSE").
- | THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW. ANY USE OF THE 
- | WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
- | BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGREE TO BE 
- | BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE MAY BE CONSIDERED 
- | TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED HERE IN 
- | CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
+ | Buto PHP API WrapperCopyright (C) 2010 Big Button Media Limited.
+ |
+ | This library is free software; you can redistribute it and/or
+ | modify it under the terms of the GNU Lesser General Public
+ | License as published by the Free Software Foundation; either
+ | version 2.1 of the License, or (at your option) any later version.
+ |
+ | This library is distributed in the hope that it will be useful,
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ | Lesser General Public License for more details.
+ |
+ | You should have received a copy of the GNU Lesser General Public
+ | License along with this library; if not, write to the Free Software
+ | Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  |
  |
  | USAGE
