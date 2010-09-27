@@ -4,14 +4,14 @@
  |
  | BUTO PHP API WRAPPER
  | ================================================================================ 
- | Version: 0.4
- | Last modified: 23/09/2010
- | Last modified by: Greg 
+ | Version: 0.5
+ | Last modified: 27/09/2010
+ | Last modified by: Andy 
  |
  |
  | LICENSE
  | ================================================================================ 
- | Buto PHP API Wrapper. Copyright (C) 2010 Big Button Media Limited.
+ | Buto PHP API Wrapper Copyright (C) 2010 Big Button Media Limited.
  |
  | This library is free software; you can redistribute it and/or
  | modify it under the terms of the GNU Lesser General Public
@@ -55,6 +55,7 @@
 class Buto
 {
 	public $api_key				= NULL;
+	public $site_url			= 'http://buto.tv';
 	public $api_url				= 'http://api.buto.tv';
 	public $errors				= array();
 	
@@ -131,20 +132,44 @@ class Buto
 		$response				= $this->request($this->dest);
 		
 		if ($response)
-		{
-			$videos				= array();
-			
-			foreach($response['video'] as $params)
-			{
-				array_push($videos, new ButoVideo(get_object_vars($params)));
-			}
-			
-			return $videos;
+		{	
+			return $this->format_video_responses($response);
 		}
 		else
 		{
 			return FALSE;
 		}
+	}
+	
+	/**
+	 | Videos - Format response
+	 | ------------------------------------------------------------------
+	 | Formats the video responses into an array of ButoVideo objects
+	 | Private
+	**/
+	
+	private function format_video_responses($response)
+	{
+		$videos					= array();
+	
+		//Check if there are multiple videos returned
+	
+		if (is_array($response['video']))
+		{
+			foreach ($response['video'] as $params)
+			{
+				array_push($videos, new ButoVideo(get_object_vars($params)));
+			}
+		}
+		
+		//Otherwise return an array with one object
+		
+		else
+		{
+			array_push($videos, new ButoVideo(get_object_vars($response['video'])));
+		}
+		
+		return $videos;
 	}
 	
 	/**
@@ -219,17 +244,7 @@ class Buto
 		
 		if ($response)
 		{
-		
-			//print_r($response); exit;
-			
-			$video_responses			= array();
-			
-			foreach($response as $params)
-			{			
-				array_push($video_responses, new ButoVideo(get_object_vars($params)));
-			}
-			
-			return $video_responses;
+			return $this->format_video_responses($response);
 		}
 		else
 		{	
@@ -289,6 +304,63 @@ class Buto
 		$response			= $this->request($dest, $req->asXML());
 		
 		return new ButoVideo($response);
+	}
+	
+	/**
+	 | Embed Video
+	 | ----------------------------------------------------------
+	 | Generates a standard embed code for a buto video based on ID
+	 | iPhone compatibility can be disabled with the final parameter
+	 | returns void, but echos output
+	**/
+	
+	public function embed_video($id = FALSE, $width = 500, $height = 280, $iphone = TRUE)
+	{
+		if (!$id || $id == '')
+		{
+			return FALSE;
+		}
+		
+		if (!is_numeric($width) || !is_numeric($height))
+		{
+			return FALSE;
+		}
+		
+		$video				= $this->get_video($id);
+	
+		//Check video was returned
+		
+		if (!$video)
+		{
+			return FALSE;
+		}
+		
+		$code				= '';
+		
+		$code			= '<object type="application/x-shockwave-flash" data="'.$this->site_url.'/player/swf/'.$video->id.'"';
+		$code			.= ' width="'.$width.'" height="'.$height.'">';
+		$code			.= '<param name="movie" value="'.$this->site_url.'/player/swf/'.$video->id.'" />';
+		$code			.= '<param name="flashvars" value="video_id='.$video->id.'" />';
+		$code			.= '<param name="allowfullscreen" value="true" />';
+		$code			.= '<param name="allowscriptaccess" value="always" />';
+		$code			.= '<param name="wmode" value="transparent" />';
+		
+		if ($iphone)
+		{		
+
+			$code			.= '<video width="'.$width.'" height="'.$height.'" src="'.$this->site_url.'/videos/source_file/m4v/256/'.$video->id.'"';
+			$code			.= ' poster="'.$this->site_url.'/videos/source_file/jpg/poster/'.$video->id.'" controls>';
+		}
+		
+		$code			.= '<img src="'.$this->site_url.'/videos/source_file/jpg/poster/'.$video->id.'" width="'.$width.'" height="'.$height.'" alt="You must install Adobe Flash Player 9 or higher to view this video" title="You must install Adobe Flash Player 9 or higher to view this video" />';
+		$code			.= '</object>';
+		
+		if ($iphone)
+		{
+			$code			.= '<script type="text/javascript" src="http://ping.buto.tv/track/'.$video->id.'"></script>';
+		}
+		
+		echo $code;
 	}
 	
 	/**
