@@ -4,9 +4,9 @@
  |
  | BUTO PHP API WRAPPER
  | ================================================================================ 
- | Version: 0.5
- | Last modified: 27/09/2010
- | Last modified by: Andy 
+ | Version: 0.6
+ | Last modified: 21/03/2011
+ | Last modified by: Greg 
  |
  |
  | LICENSE
@@ -662,12 +662,14 @@ class Buto
 		
 		if ($response)
 		{
-			$return_vars			= array();
+			$returned_settings		= array();
 			
 			foreach ($response['settings'] as $settings)
 			{
-				array_push($return_vars, new ButoSettings(get_object_vars($settings)));
+				array_push($returned_settings, new ButoSettings(get_object_vars($settings)));
 			}
+			
+			return $returned_settings;
 		}
 		else
 		{
@@ -689,12 +691,14 @@ class Buto
 		
 		if ($response)
 		{
-			$return_vars			= array();
+			$returned_themes		= array();
 			
 			foreach ($response['themes'] as $theme)
 			{
-				array_push($return_vars, new ButoTheme(get_object_vars($theme)));
+				array_push($returned_themes, new ButoTheme(get_object_vars($theme)));
 			}
+			
+			return $returned_themes;
 		}
 		else
 		{
@@ -716,12 +720,14 @@ class Buto
 		
 		if ($response)
 		{
-			$return_vars			= array();
+			$returned_playlists	= array();
 			
 			foreach ($response['playlist'] as $playlist)
 			{
-				array_push($return_vars, new ButoPlaylist(get_object_vars($playlist)));
+				array_push($returned_playlists, new ButoPlaylist(get_object_vars($playlist)));
 			}
+			
+			return $returned_playlists;
 		}
 		else
 		{
