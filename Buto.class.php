@@ -53,7 +53,7 @@
 **/
 
 /**
- | test commit.
+ | CFPGROUP UPDATE: added some error detection for when a 404 is encountered.
 */
 class Buto
 {
@@ -825,6 +825,7 @@ class Buto
     	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     	
     	$result							= curl_exec($ch);
+		$info 							= curl_getinfo($ch); // also grab request info so we can get the response status.
     	curl_close($ch);
 		
 		if ($result)
@@ -841,9 +842,17 @@ class Buto
 			
 			else
 			{
-				if ($result != "")
+				if(isset($info['http_code']) && $info['http_code'] == '404')
+				{
+					// we should just bail here.
+					$this->errors[$url] = 'Error 404';
+					return false;	
+				}
+				
+				elseif ($result != "")
 				{
 					try {
+						libxml_use_internal_errors(true); // this should suppress any XML errors.
 						$api_response_simple_xml = new SimpleXMLElement($result);
 						
 						return get_object_vars($api_response_simple_xml);
